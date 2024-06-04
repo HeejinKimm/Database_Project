@@ -47,7 +47,7 @@ class 관리자 extends JFrame implements ActionListener {
     // Database credentials
     // MySQL 계정과 암호 입력
     static final String USER = "root";
-    static final String PASS = "kms1";
+    static final String PASS = "4542";
     private String tableName;
     String command1 = null;
     String command2 = null;

@@ -1,6 +1,7 @@
 package professor;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -15,9 +16,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.*;
-import java.awt.*;
 
+import javax.swing.JComboBox;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,43 +31,41 @@ import javax.swing.border.EmptyBorder;
 
 import mainFrame.mainGUI;
 
-import javax.swing.JComboBox;
-import java.awt.FlowLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
 
 public class professor_button1 extends JFrame{
+
+	private JPanel contentPane; //main JPanel 선언
 	
-	private JPanel contentPane;
-	
-	String usage;
-    String seats;
-    String cameraType;
-    boolean outlet;
-    boolean projector;
-    boolean reservation;
-    boolean recording;
-    boolean practicable;
-    Map<String, Boolean> timeDictionary = new HashMap<>();
-    private JTextArea infoArea;
-	
-	
-	public professor_button1() {
-		setTitle("GONG-GANG");
+	String usage;            // 사용 유형
+    String seats;            // 좌석 수
+    String cameraType;       // 카메라 유형
+    boolean outlet;          // 콘센트 유무
+    boolean projector;       // 빔프로젝트 유무
+    boolean reservation;     // 예약 필요 여부
+    boolean recording;       // 녹화 가능 여부
+    boolean practicable;     // 실습 가능 여부
+    Map<String, Boolean> timeDictionary = new HashMap<>(); // 시간 선택 상태 저장할 맵
+    private JTextArea infoArea; // 결과 가져오는 텍스트
+
+
+    public professor_button1() {
+    	
+    	// main frame 설정 
+        setTitle("GONG-GANG");
         setBackground(new Color(255, 255, 255));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1100, 600);
         setLocation(50, 50);
+        
+        // main JPanel 생성
         contentPane = new JPanel();
         contentPane.setForeground(new Color(255, 255, 255));
         contentPane.setBackground(new Color(255, 255, 255));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new BorderLayout(10, 10));
         setContentPane(contentPane);
-
-
+        
+        
         // 로고 붙이는 Panel
         JPanel logoPanel = new JPanel();
         logoPanel.setBackground(new Color(255, 255, 255));
@@ -79,22 +80,24 @@ public class professor_button1 extends JFrame{
         logo.setFont(new Font("Arial Black", Font.BOLD, 40));
         logoPanel.add(logo);
 
+       
+        // - 원하는 강의실 찾기 - 로고 label 생성
         JLabel userLabel = new JLabel("- \uC6D0\uD558\uB294 \uAC15\uC758\uC2E4 \uCC3E\uAE30 -");
         userLabel.setHorizontalAlignment(SwingConstants.CENTER);
         userLabel.setFont(new Font("나눔고딕", Font.BOLD, 22));
         logoPanel.add(userLabel);
-        
-        
+
+        // option & time table 붙이는 mainPanel 생성
         JPanel mainPanel = new JPanel();
         mainPanel.setBackground(new Color(255, 255, 255));
         contentPane.add(mainPanel, BorderLayout.CENTER);
-        
-        // options 버튼 붙이는 Panel
+
+        // options 버튼 붙이는 Panel 생성 
         JPanel optionPanel = new JPanel();
         optionPanel.setBackground(new Color(255, 255, 255));
         mainPanel.add(optionPanel);
         optionPanel.setPreferredSize(new Dimension(500, 170));
-        
+
         //comboBox 붙이는 Panel
         JPanel dropdownsPanel = new JPanel();
         optionPanel.add(dropdownsPanel);
@@ -102,18 +105,21 @@ public class professor_button1 extends JFrame{
         dropdownsPanel.setBackground(new Color(255, 255, 255));
         dropdownsPanel.setSize(new Dimension(600, 200));
         dropdownsPanel.setLayout(new GridLayout(3, 2, 40, 10));
-        
+
+        //comboBox1 - 공간유형
         JLabel usageLabel = new JLabel("\uACF5\uAC04 \uC720\uD615   : ");
         usageLabel.setHorizontalAlignment(SwingConstants.LEFT);
         usageLabel.setFont(new Font("나눔고딕", Font.BOLD, 14));
         dropdownsPanel.add(usageLabel);
-
+        
         JComboBox usageComboBox = new JComboBox(new String[]{"선택", "교실", "교실 외"});
         usageComboBox.setBackground(new Color(255, 255, 255));
         usageComboBox.setFont(new Font("나눔고딕", Font.BOLD, 14));
         dropdownsPanel.add(usageComboBox);
         usageComboBox.setPreferredSize(new Dimension(200, usageComboBox.getPreferredSize().height));
 
+        
+        //comboBox2 - 좌석 수
         JLabel seatsLabel = new JLabel("\uC88C\uC11D \uC218       : ");
         seatsLabel.setHorizontalAlignment(SwingConstants.LEFT);
         seatsLabel.setFont(new Font("나눔고딕", Font.BOLD, 14));
@@ -123,94 +129,99 @@ public class professor_button1 extends JFrame{
         seatsComboBox.setBackground(new Color(255, 255, 255));
         seatsComboBox.setFont(new Font("나눔고딕", Font.BOLD, 14));
         dropdownsPanel.add(seatsComboBox);
+
         
+        //comboBox2 - 카메라유형
         JLabel cameraLabel = new JLabel("\uCE74\uBA54\uB77C \uC720\uD615 :");
         dropdownsPanel.add(cameraLabel);
         cameraLabel.setFont(new Font("나눔고딕", Font.BOLD, 14));
-        
+
         JComboBox cameraComboBox = new JComboBox(new String[]{"선택", "고정식 카메라", "추적식 카메라"});
         cameraComboBox.setBackground(new Color(255, 255, 255));
         cameraComboBox.setFont(new Font("나눔고딕", Font.BOLD, 14));
         dropdownsPanel.add(cameraComboBox);
         
+        
+        //checkBox 붙이는 Panel 생성
         JPanel checkBoxPanel = new JPanel();
         checkBoxPanel.setLayout(new FlowLayout(FlowLayout.CENTER,15,10));
         checkBoxPanel.setBackground(new Color(255, 255, 255));
         optionPanel.add(checkBoxPanel);
-        
+
+        //checkBox 1
         JCheckBox CheckBox1 = new JCheckBox("\uCF58\uC13C\uD2B8");
         CheckBox1.setBackground(new Color(255, 255, 255));
         checkBoxPanel.add(CheckBox1);
         CheckBox1.setFont(new Font("나눔고딕", Font.BOLD, 13));
-        
+        //checkBox 2
         JCheckBox CheckBox2 = new JCheckBox("\uBE54\uD504\uB85C\uC81D\uD2B8");
         checkBoxPanel.add(CheckBox2);
         CheckBox2.setBackground(new Color(255, 255, 255));
         CheckBox2.setFont(new Font("나눔고딕", Font.BOLD, 13));
-        
+        //checkBox 3
         JCheckBox CheckBox3 = new JCheckBox("\uC608\uC57D \uD544\uC694");
         checkBoxPanel.add(CheckBox3);
         CheckBox3.setBackground(new Color(255, 255, 255));
         CheckBox3.setFont(new Font("나눔고딕", Font.BOLD, 13));
-        
+        //checkBox 4
         JCheckBox CheckBox4 = new JCheckBox("\uB179\uD654 \uAC00\uB2A5");
         checkBoxPanel.add(CheckBox4);
         CheckBox4.setBackground(new Color(255, 255, 255));
         CheckBox4.setFont(new Font("나눔고딕", Font.BOLD, 13));
-        
+        //checkBox 5
         JCheckBox CheckBox5 = new JCheckBox("\uC2E4\uC2B5 \uAC00\uB2A5");
         checkBoxPanel.add(CheckBox5);
         CheckBox5.setBackground(new Color(255, 255, 255));
         CheckBox5.setFont(new Font("나눔고딕", Font.BOLD, 13));
-        
-        
-        // Time table
-        JPanel timePanel = new JPanel();
-        timePanel.setLayout(new GridLayout(8, 5));
-        timePanel.setBorder(BorderFactory.createTitledBorder("원하는 교시 선택"));
-        timePanel.setBackground(new Color(255,255,255));
 
-        String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri"};
-        String[] times = {"1", "2", "3", "4", "5", "6", "7","8"};
+
+     // 시간표 패널 생성
+        JPanel timePanel = new JPanel();
+        timePanel.setBackground(new Color(255, 255, 255));
+        timePanel.setLayout(new GridLayout(8, 5)); // 그리드 레이아웃 설정
+        timePanel.setBorder(BorderFactory.createTitledBorder("원하는 시간 찾기")); // 테두리 설정
+
+        // 시간표 라벨 및 체크박스 생성
+        String[] days = { "Mon", "Tue", "Wed", "Thu", "Fri" };
+        String[] times = { "1", "2", "3", "4", "5", "6", "7", "8" };
 
         for (String time : times) {
             for (String day : days) {
-                String name=day+time;
-                timeDictionary.put(name,false);
+                String name = day + time;
+                timeDictionary.put(name, false); // 초기값 설정
                 JCheckBox checkBox = new JCheckBox(day + " " + time);
                 checkBox.setBackground(new Color(255,255,255));
                 checkBox.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        timeDictionary.put(name, true);
-
+                        timeDictionary.put(name, checkBox.isSelected()); // 체크박스 상태 저장
                     }
                 });
-                checkBox.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-                timePanel.add(checkBox);
-
+                checkBox.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // 테두리 설정
+                timePanel.add(checkBox); // 시간표 패널에 체크박스 추가
             }
         }
-        JScrollPane scrollPane = new JScrollPane(timePanel);
+        JScrollPane scrollPane = new JScrollPane(timePanel); // 스크롤 패널 생성
         mainPanel.add(scrollPane);
         scrollPane.setBackground(new Color(255,255,255));
+
         
-        
-        
-        //resultButton & homeButton
+        //resultButton & homeButton 붙이는 Panel 생성
         JPanel ButtonPanel = new JPanel();
         ButtonPanel.setBackground(new Color(255, 255, 255));
         contentPane.add(ButtonPanel, BorderLayout.SOUTH);
         ButtonPanel.setLayout(new BorderLayout(0, 0));
 
+        //reuslt 버튼 붙이는 Panel 생성 
         JPanel resultPanel = new JPanel(new FlowLayout());
         resultPanel.setBackground(new Color(255, 255, 255));
         ButtonPanel.add(resultPanel, BorderLayout.CENTER);
+        //result 버튼 생성 
         JButton resultButton = new JButton("\uAC80\uC0C9");
         resultButton.setFont(new Font("나눔고딕", Font.BOLD, 16));
         resultButton.setBackground(new Color(255, 255, 255));
         resultPanel.add(resultButton);
-        
+
         resultButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -227,7 +238,7 @@ public class professor_button1 extends JFrame{
 
                 searchClassroomInfo();
 
-                // 새로운 창을 열어 결과를 보여줌                
+                // 새로운 창을 열어 결과를 보여줌
                 // 새 창을 여는 로직
                 JFrame newFrame = new JFrame("검색된 정보");
                 newFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -241,7 +252,7 @@ public class professor_button1 extends JFrame{
                 infoArea.setEditable(false);
                 newFrame.getContentPane().add(infoArea);
                 newFrame.setVisible(true);
-                
+
                 // 로고 붙이는 Panel
                 JPanel logoPanel = new JPanel();
                 logoPanel.setBackground(new Color(255, 255, 255));
@@ -263,9 +274,9 @@ public class professor_button1 extends JFrame{
                 logoPanel.add(userLabel);
             }
         });
-        
-        
-        //homebuttom 
+
+
+        //homebuttom
         JPanel homePanel = new JPanel();
         homePanel.setBackground(new Color(255, 255, 255));
         JButton homeButton = new JButton("HOME");
@@ -284,23 +295,23 @@ public class professor_button1 extends JFrame{
                 mainFrame.setVisible(true); // Open the mainGUI frame
             }
         });
-        
-        // 디자인상 필요한 부분 
+
+        // 디자인상 필요한 부분
         JPanel emptyPanel = new JPanel();
         emptyPanel.setBackground(new Color(255,255,255));
         ButtonPanel.add(emptyPanel, BorderLayout.WEST);
         emptyPanel.setPreferredSize(new Dimension(90,0));
 
-	}
-	
-	private void searchClassroomInfo() {
+    }
+
+    private void searchClassroomInfo() {
         final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
         final String DB_URL = "jdbc:mysql://localhost:3306/DB2024Team05";
-        final String USER = "root";
-        final String PASS = "4542";
+        final String USER = "DB2024Team05";
+        final String PASS = "DB2024Team05";
         String message = "검색된 교실의 번호:\n";
 
-        StringBuilder query = new StringBuilder("SELECT * FROM DB2024_Classroom WHERE 1=1");
+        StringBuilder query = new StringBuilder("SELECT * FROM ClassroomView WHERE 1=1");
 
         String[] seatRange = seats.split("-");
         if (!seats.equals("선택")) {
@@ -322,15 +333,17 @@ public class professor_button1 extends JFrame{
             query.append(" AND Practicable = '실습 가능'");
 
         try (Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
-                PreparedStatement stmt = conn.prepareStatement(query.toString())) {
+             PreparedStatement stmt = conn.prepareStatement(query.toString())) {
 
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
                 String roomNumber = rs.getString("Room_Number");
+                String Room_name = rs.getString("Room_Name");
+                String Location = rs.getString("Location");
                 String availableTimes = getAvailableTimes(rs);
                 if (!availableTimes.isEmpty()) {
-                    message += roomNumber + " 가능 시간: " + availableTimes + "\n";
+                    message += roomNumber+" "+Room_name+" "+Location + " 가능 시간: " + availableTimes + "\n";
                 }
             }
 

@@ -23,10 +23,7 @@ public class professor_button2 extends JFrame {
     private JTextArea professorInfoArea;
     private Connection connection;
 
- 
-    /**
-     * Create the frame.
-     */
+    
     public professor_button2() {
         // Establish database connection
         connectToDatabase();
@@ -92,8 +89,8 @@ public class professor_button2 extends JFrame {
         headerPanel.add(searchPanel, BorderLayout.SOUTH);
 
         contentPane.add(headerPanel, BorderLayout.NORTH);
-        
-        
+
+
         //홈 버튼 생성
         JPanel homeButtonPanel = new JPanel();
         homeButtonPanel.setBackground(new Color(255, 255, 255));
@@ -113,8 +110,8 @@ public class professor_button2 extends JFrame {
                 mainFrame.setVisible(true); // Open the mainGUI frame
             }
         });
-        
-        
+
+
 
         // 결과 영역 (강의 테이블)
         String[] columnNames = { "", "월", "화", "수", "목", "금" }; // 테이블 컬럼 이름 설정
@@ -132,8 +129,8 @@ public class professor_button2 extends JFrame {
     private void connectToDatabase() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver"); // MySQL 드라이버 로드
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/DB2024Team05", "root", "root"); // 데이터베이스
-                                                                                                                  // 연결
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/DB2024Team05", "DB2024Team05", "DB2024Team05"); // 데이터베이스
+            // 연결
             System.out.println("Database connected successfully."); // 연결 성공 메시지 출력
         } catch (Exception e) {
             e.printStackTrace(); // 예외 발생 시 스택 트레이스 출력
@@ -153,11 +150,11 @@ public class professor_button2 extends JFrame {
                 updateLectureTable(professorName); // 테이블 업데이트
             } else {
                 JOptionPane.showMessageDialog(this, "해당 교수님의 정보를 찾을 수 없습니다.", "경고", JOptionPane.WARNING_MESSAGE); // 교수
-                                                                                                                  // 정보
-                                                                                                                  // 없을
-                                                                                                                  // 시
-                                                                                                                  // 경고
-                                                                                                                  // 메시지
+                // 정보
+                // 없을
+                // 시
+                // 경고
+                // 메시지
             }
         } catch (SQLException e) {
             e.printStackTrace(); // SQL 예외 발생 시 스택 트레이스 출력
@@ -168,7 +165,7 @@ public class professor_button2 extends JFrame {
         ProfessorInfo professorInfo = null;
 
         String professorQuery = "SELECT Name, Lab_Location, Phone, Email FROM DB2024_Professor WHERE Name = ?"; // 교수 정보
-                                                                                                                // 쿼리
+        // 쿼리
         PreparedStatement professorStmt = connection.prepareStatement(professorQuery); // 쿼리 준비
         professorStmt.setString(1, professorName); // 검색어 설정
         ResultSet professorRs = professorStmt.executeQuery(); // 쿼리 실행
@@ -272,7 +269,7 @@ public class professor_button2 extends JFrame {
         for (int i = 0; i < lectureTable.getRowCount(); i++) {
             for (int j = 0; j < lectureTable.getColumnCount(); j++) {
                 lectureTable.getColumnModel().getColumn(j).setCellRenderer(new DefaultTableCellRenderer()); // 기본 셀 렌더러로
-                                                                                                            // 초기화
+                // 초기화
             }
         }
 
@@ -312,7 +309,7 @@ public class professor_button2 extends JFrame {
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-                int row, int column) {
+                                                       int row, int column) {
             Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             if ((highlightedRow == -1 || row == highlightedRow)
                     && (highlightedColumn == -1 || column == highlightedColumn)) {

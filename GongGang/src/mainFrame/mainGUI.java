@@ -25,7 +25,6 @@ import java.awt.event.ActionListener;
 import student.student_choiceGUI;
 import administrator.administrator;
 import student.student_choiceGUI;
-import administrator.admin_password;
 
 public class mainGUI extends JFrame {
 
